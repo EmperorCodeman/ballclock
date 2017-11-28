@@ -1,0 +1,7 @@
+Install Python3
+from bash run program from its directory with the below command or simular command based on python's given name 
+	python3.5 BallClock.py arg1 arg2
+Note: arg1 is the number of balls to init the clock with, and arg2 is the time to run the clock. If you ommit arg2 you will print the number of days to complete a cycle, with arg2 you will print the state of the tracks at the end of the time you told the clock to run.
+Legal arguments
+	27 <= arg1 <= 127
+	0 < arg2 < unknown based on system memory(huge number) 
