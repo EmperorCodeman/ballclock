@@ -181,7 +181,7 @@ public class BallClock {
 			hoursSinceStartOfACycle += 12;
 			// Set cycle duration if it is null and a cycle has been completed
 			// only check if cycle completed at end of cycle 
-						if (null == checkForCycleCompletion() && cycleDuration) {
+						if (cycleDuration == null && checkForCycleCompletion()) {
 							// set cycle len
 							cycleDuration = getTimeElapsed();
 							// A partial day(12 hr) is counted as a full day by criteria
