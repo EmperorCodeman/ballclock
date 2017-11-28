@@ -68,8 +68,6 @@ public class BallClock {
 		cycleHash = que.clone(); // when the que becomes identical to its starting configuration a cycle is
 									// complete
 	}
-
-	
 	public static void main(String[] args) {
 		switch(args.length) {
 		case 1 :{ 
@@ -85,7 +83,7 @@ public class BallClock {
 			break;
 		}
 		default:{
-			BallClock b = new BallClock(45);
+			BallClock b = new BallClock(123);
 			b.setCycleDuration();
 			b.display("days to complete cycle");
 			b.display("state of the tracks");
@@ -118,15 +116,6 @@ public class BallClock {
 	private void addToQue(ArrayList<Integer> balls) {
 		for (Integer ball : balls) {
 			que.add(ball);
-			// Set cycle duration if it is null and a cycle has been completed
-			if (checkForCycleCompletion() && cycleDuration == null) {
-				// set cycle len
-				cycleDuration = getTimeElapsed();
-				// A partial day(12 hr) is counted as a full day by criteria
-				if (cycleDuration[1] == 12)
-					cycleDuration[0] += 1;
-				hoursSinceStartOfACycle = 0; // prevent hitting max int by reseting
-			}
 		}
 	}
 
@@ -190,6 +179,16 @@ public class BallClock {
 			addToQue(hourClone);
 			addToQue(routToQue);
 			hoursSinceStartOfACycle += 12;
+			// Set cycle duration if it is null and a cycle has been completed
+			// only check if cycle completed at end of cycle 
+						if (null == checkForCycleCompletion() && cycleDuration) {
+							// set cycle len
+							cycleDuration = getTimeElapsed();
+							// A partial day(12 hr) is counted as a full day by criteria
+							if (cycleDuration[1] == 12)
+								cycleDuration[0] += 1;
+							hoursSinceStartOfACycle = 0; // prevent hitting max int by reseting
+						}
 		}
 	}
 
@@ -206,10 +205,8 @@ public class BallClock {
 	}
 
 	public int[] setCycleDuration() {
-		int runTime = 10000;// minutes
 		while (cycleDuration == null) {
-			run(runTime);
-			runTime *= 10;
+			addMinute(que.pop())
 		}
 		return cycleDuration;
 	}
@@ -238,23 +235,3 @@ public class BallClock {
 	}
 }
 
-/*
- * if __name__ == "__main__":
-    if len(sys.argv) == 1 or len(sys.argv) > 3:
-        raise ValueError("Must pass One or two integers, first value between 27-127, if second value added it must be a positive integer")
-    numberOfBalls = int(sys.argv[1])
-    ballClock = BallClock(numberOfBalls)
-    if len(sys.argv) == 3:
-        durationToRunClock = int(sys.argv[2])
-        assert (durationToRunClock > 0)
-        ballClock.run(durationToRunClock)
-        print(ballClock.display("state of the tracks"))
-    else:
-        ballClock.getCycleDuration()
-        ballClock.display("days to complete cycle")
-'''
-#Test Set
-#30 balls cycle after 15 days.
-#45 balls cycle after 378 days.
-'''
- */
